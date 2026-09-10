@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2026-09-11
+
+### Added
+- **`docs/aws-deployment-process.md`** — the AWS deployment runbook for hosting the
+  assistant (CloudFormation-templated IAM user + budget alert, Amplify frontend,
+  Lambda/API Gateway backend on Bedrock). Split into three phases so the account owner
+  never touches IAM or permissions and the engineer never sees the payment method or
+  root credentials. Written in Bulgarian because Phase 1 is a click-by-click script for
+  the non-technical account owner. Lives in `docs/`, not `knowledge-base/`, so it stays
+  out of the agent's grounding.
+- **Terraform variant for Phase 2, in the same document.** The Amplify frontend and the
+  Lambda / API Gateway backend can be raised with Terraform instead of by hand, plus the
+  four Phase 0 template additions that make it possible (named application roles +
+  `iam:PassRole`, self-scoped `iam:CreateAccessKey`, an optional state bucket). Phase 1
+  is explicitly unchanged — the account owner still clicks the link and sends the same
+  three lines. Records what stays outside Terraform: the Phase 0 resources stay
+  CloudFormation-owned (no `terraform import` — a `destroy` would take out the
+  engineer's own access and the budget alert), and Bedrock model access remains a
+  one-time console step.
+
 ## [1.3.2] - 2026-09-10
 
 ### Added
